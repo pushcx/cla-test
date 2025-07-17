@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "DCO Assistant"
-        if: github.event.comment.body == 'recheck' || github.event.comment.body == ${{ env.$STATEMENT }} || github.event_name == 'pull_request_target'
+        if: github.event.comment.body == 'recheck' || github.event.comment.body == ${{ env.STATEMENT }} || github.event_name == 'pull_request_target'
         # Beta Release
         uses: CloudReactor/cla-assistant-github-action@v2.1.3-beta-forked
         env:
