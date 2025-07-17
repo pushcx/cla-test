@@ -30,8 +30,8 @@ jobs:
           allowlist: nobody,nohow
 
           #below are the optional inputs - If the optional inputs are not given, then default values will be taken
-          remote-organization-name: "recheckdev"
-          remote-repository-name: "dco"
+          remote-organization-name: "pushcx"
+          remote-repository-name: "dco-sign"
           create-file-commit-message: "Creating file for storing DCO certifications"
           signed-commit-message: "DCO 1.1 certified by $contributorName in #$pullRequestNo"
           custom-notsigned-prcomment: 'Hi, this is the DCO Assistant bot. Please read the [Developer Certificate of Origin](https://developercertificate.org) (available in this repo at /dco.txt) and post a comment reading "$STATEMENT" to affirm you have the right to submit code under the project license. You only have to do this once, and your code will not be merged wtihout it. ([More info](https://osr.finos.org/docs/bok/artifacts/clas-and-dcos))'
