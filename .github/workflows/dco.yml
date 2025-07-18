@@ -8,18 +8,23 @@ on:
   pull_request_target:
     types: [opened,synchronize]
 
+permissions:
+  actions: write
+  contents: read
+  pull-requests: write
+  statuses: write
+
 env:
-  STATEMENT: "I certify my contributions under the Developer Certificate of Origin in dco.txt"
+  STATEMENT: "I certify my contributions under the Developer Certificate of Origin in dco.txt."
 
 jobs:
-  CLAssistant:
+  DCOAssistant:
     runs-on: ubuntu-latest
     steps:
       - name: "DCO Assistant"
-        # bump
-        if: github.event.comment.body == 'recheck' || github.event.comment.body == ${{ env.STATEMENT }} || github.event_name == 'pull_request_target'
+        if: github.event.comment.body == 'DCOAssistant' || github.event.comment.body == ${{ env.STATEMENT }} || github.event_name == 'pull_request_target'
         # Beta Release
-        uses: CloudReactor/cla-assistant-github-action@v2.1.3-beta-forked
+        uses: contributor-assistant/github-action@v2.6.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # the below token should have repo scope and must be manually added by you in the repository's secret
@@ -27,16 +32,16 @@ jobs:
         with:
           path-to-signatures: "dco_v1.1.json"
           path-to-document: "/dco.txt" # copy of https://developercertificate.org/
-          branch: 'main' # cannot be a protect branch
+          branch: 'main' # cannot be a protected branch
           allowlist: nobody,nohow
 
           #below are the optional inputs - If the optional inputs are not given, then default values will be taken
-          remote-organization-name: "recheckdev"
-          remote-repository-name: "dco"
+          remote-organization-name: "pushcx"
+          remote-repository-name: "dco-sign"
           create-file-commit-message: "Creating file for storing DCO certifications"
           signed-commit-message: "DCO 1.1 certified by $contributorName in #$pullRequestNo"
-          custom-notsigned-prcomment: 'Hi, this is the DCO Assistant bot. Please read the [Developer Certificate of Origin](https://developercertificate.org) (available in this repo at /dco.txt) and post a comment reading "$STATEMENT" to affirm you have the right to submit code under the project license. You only have to do this once, and your code will not be merged wtihout it. ([More info](https://osr.finos.org/docs/bok/artifacts/clas-and-dcos))'
-          custom-pr-sign-comment: $STATEMENT
+          custom-notsigned-prcomment: "Hi, this is the DCO Assistant bot. Please read the [Developer Certificate of Origin](https://developercertificate.org) (also available in this repo at /dco.txt) and post a comment with exactly the text below to affirm that you have the right to submit code under the project license. You only have to do this once, and your code will not be merged wtihout it. ([More info](https://osr.finos.org/docs/bok/artifacts/clas-and-dcos))"
+          custom-pr-sign-comment: ${{ env.STATEMENT }}
           custom-allsigned-prcomment: "All contributors have certified the DCO."
           lock-pullrequest-aftermerge: false
           use-dco-flag: true
