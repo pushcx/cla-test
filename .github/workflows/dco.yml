@@ -8,17 +8,23 @@ on:
   pull_request_target:
     types: [opened,synchronize]
 
+permissions:
+  actions: write
+  contents: read
+  pull-requests: write
+  statuses: write
+
 env:
-  STATEMENT: "I certify my contributions under the Developer Certificate of Origin in dco.txt"
+  STATEMENT: "I certify my contributions under the Developer Certificate of Origin in dco.txt."
 
 jobs:
-  CLAssistant:
+  DCOAssistant:
     runs-on: ubuntu-latest
     steps:
       - name: "DCO Assistant"
         if: github.event.comment.body == 'recheck' || github.event.comment.body == ${{ env.STATEMENT }} || github.event_name == 'pull_request_target'
         # Beta Release
-        uses: CloudReactor/cla-assistant-github-action@v2.1.3-beta-forked
+        uses: contributor-assistant/github-action@v2.6.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # the below token should have repo scope and must be manually added by you in the repository's secret
@@ -26,7 +32,7 @@ jobs:
         with:
           path-to-signatures: "dco_v1.1.json"
           path-to-document: "/dco.txt" # copy of https://developercertificate.org/
-          branch: 'main' # cannot be a protect branch
+          branch: 'main' # cannot be a protected branch
           allowlist: nobody,nohow
 
           #below are the optional inputs - If the optional inputs are not given, then default values will be taken
